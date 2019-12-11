@@ -11,9 +11,12 @@ def load_file(filename):
         for line in file_data.readlines():
             inputs.append(int(line))
 
-if __name__ == "__main__":
+def calc_fuel_requirement():
     load_file("inputs/puzzle_1.txt")
     sum = 0
     for module in inputs:
         sum += calc_module_fuel(module)
-    print(sum)
+    return sum
+
+if __name__ == "__main__":
+    print(calc_fuel_requirement())
