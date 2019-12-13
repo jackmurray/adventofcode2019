@@ -28,7 +28,7 @@ class WireGrid:
 
 if __name__ == "__main__":
     grid = WireGrid()
-    wire = Wire("R15,U10")
-
-    grid.add_wire(wire)
-            
+    with open("inputs/puzzle_3.txt") as file_data:
+        for line in file_data.readlines():
+            wire = Wire(line)
+            grid.add_wire(wire)
