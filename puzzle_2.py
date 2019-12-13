@@ -4,7 +4,7 @@ class IntcodeComputer:
 
     def load_file(self, filename):
         with open(filename) as file_data:
-            self.program = file_data.readline().split(',')
+            self.program = list(map(int, file_data.readline().split(','))) # Read data and convert each element to an int.
 
     def op_add(self):
         self.program[self.program[self.ip+3]] = self.program[self.program[self.ip+1]] + self.program[self.program[self.ip+2]]
@@ -27,13 +27,14 @@ class IntcodeComputer:
         self.ip = 0
         while True:
             opcode = self.program[self.ip]
-            func = self.opcode_handler.get(opcode, lambda: "Invalid opcode")
+            func = self.opcode_handler.get(int(opcode), lambda self: print("Unknown opcode {0}".format(opcode)))
             result = func(self)
             if result == -1:
                 break
             self.ip += 4
 
-computer = IntcodeComputer()
-computer.program = [1,0,0,0,99]
-computer.execute()
-print("Final program state: {0}".format(computer.program))
+if __name__ == "__main__":
+    computer = IntcodeComputer()
+    computer.load_file("inputs/puzzle_2.txt")
+    computer.execute()
+    print("Final program state: {0}".format(computer.program))
