@@ -33,6 +33,19 @@ class IntcodeComputer:
                 break
             self.ip += 4
 
+
+def bruteforce_output(computer, desired_output):
+    for i in range(0, 99):
+        for j in range(0, 99):
+            computer.load_file("inputs/puzzle_2.txt")
+            computer.program[1] = i
+            computer.program[2] = j
+            computer.execute()
+            if computer.program[0] == desired_output:
+                print("Solution found for i, j = {0}, {1}".format(i, j))
+                return
+    raise "No solution found"
+
 if __name__ == "__main__":
     computer = IntcodeComputer()
     computer.load_file("inputs/puzzle_2.txt")
