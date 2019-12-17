@@ -54,13 +54,9 @@ class WireGrid:
 
 if __name__ == "__main__":
     grid = WireGrid()
-    #with open("inputs/puzzle_3.txt") as file_data:
-    #    for line in file_data.readlines():
-    #        wire = Wire(line)
-    #        grid.add_wire(wire)
+    with open("inputs/puzzle_3.txt") as file_data:
+        for line in file_data.readlines():
+            wire = Wire(line)
+            grid.add_wire(wire)
 
-    w1 = Wire("R8,U5,L5,D3")
-    w2 = Wire("U7,R6,D4,L4")
-    grid.add_wire(w1)
-    grid.add_wire(w2)
     print(grid.get_shortest_intersection())
