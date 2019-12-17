@@ -8,7 +8,7 @@ class Puzzle3(unittest.TestCase):
         w2 = Wire("U62,R66,U55,R34,D71,R55,D58,R83")
         grid.add_wire(w1)
         grid.add_wire(w2)
-        self.assertEqual(grid.get_shortest_intersection(), 159)
+        self.assertEqual(grid.get_shortest_intersection(), 610)
 
     def test_puzzle_3_input2(self):
         grid = WireGrid()
@@ -16,7 +16,7 @@ class Puzzle3(unittest.TestCase):
         w2 = Wire("U98,R91,D20,R16,D67,R40,U7,R15,U6,R7")
         grid.add_wire(w1)
         grid.add_wire(w2)
-        self.assertEqual(grid.get_shortest_intersection(), 135)
+        self.assertEqual(grid.get_shortest_intersection(), 410)
     
     def test_puzzle_3_input3(self):
         grid = WireGrid()
@@ -24,4 +24,4 @@ class Puzzle3(unittest.TestCase):
         w2 = Wire("U7,R6,D4,L4")
         grid.add_wire(w1)
         grid.add_wire(w2)
-        self.assertEqual(grid.get_shortest_intersection(), 6)
+        self.assertEqual(grid.get_shortest_intersection(), 30)

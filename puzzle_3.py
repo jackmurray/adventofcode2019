@@ -5,6 +5,18 @@ class Wire:
         self.path = pathstring.split(",")
         self.head = {"x": 0, "y": 0}
         self.length = 0
+    
+    def update_len(self, direction):
+        self.length += 1 # Update the wire's current length to account for the location we're about to enter.
+
+        if direction == "U":
+            self.head['y'] += 1
+        if direction == "D":
+            self.head['y'] -= 1
+        if direction == "L":
+            self.head['x'] -= 1
+        if direction == "R":
+            self.head['x'] += 1
 
 class GridSquare:
     def __init__(self):
@@ -21,25 +33,13 @@ class WireGrid:
         for move in wire.path:
             direction = move[0]
             distance = int(move[1:])
-            wire.length += 1 # Update the wire's current length to account for the location we're about to enter.
 
-            if direction == 'U':
-                for i in range(1, distance + 1):
-                    self.visit_list[wire.head['x']][wire.head['y'] + i].wire_flags |= self.wire_flag
-                wire.head['y'] += distance
-            if direction == 'D':
-                for i in range(1, distance + 1):
-                    self.visit_list[wire.head['x']][wire.head['y'] - i].wire_flags |= self.wire_flag
-                wire.head['y'] -= distance
-            if direction == 'L':
-                for i in range(1, distance + 1):
-                    self.visit_list[wire.head['x'] - i][wire.head['y']].wire_flags |= self.wire_flag
-                wire.head['x'] -= distance
-            if direction == 'R':
-                for i in range(1, distance + 1):
-                    self.visit_list[wire.head['x'] + i][wire.head['y']].wire_flags |= self.wire_flag
-                wire.head['x'] += distance
-            
+            for i in range(1, distance + 1):
+                wire.update_len(direction)
+                gridsquare = self.visit_list[wire.head['x']][wire.head['y']]
+                gridsquare.wire_flags |= self.wire_flag
+                if self.wire_flag not in gridsquare.wire_len_when_visited.keys(): # Only the first visit counts
+                    gridsquare.wire_len_when_visited[self.wire_flag] = wire.length
             
         self.wire_flag <<= 1
             
@@ -49,13 +49,13 @@ class WireGrid:
         for x in self.visit_list.keys():
             for y in self.visit_list[x].keys():
                 if self.visit_list[x][y].wire_flags == 3: # Wires 1 and 2
-                    yield x, y
+                    yield self.visit_list[x][y]
 
     def get_shortest_intersection(self):
         intersections = self.get_intersections()
         shortest = 0
         for i in intersections:
-            length = abs(i[0]) + abs(i[1]) # abs() because intersections can have negative x or y co-ordinates.
+            length = i.wire_len_when_visited[1] + i.wire_len_when_visited[2]
             if shortest == 0 or length < shortest:
                 shortest = length
         return shortest
