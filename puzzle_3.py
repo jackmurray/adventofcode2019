@@ -46,7 +46,7 @@ class WireGrid:
         intersections = self.get_intersections()
         shortest = 0
         for i in intersections:
-            length = i[0] + i[1]
+            length = abs(i[0]) + abs(i[1]) # abs() because intersections can have negative x or y co-ordinates.
             if shortest == 0 or length < shortest:
                 shortest = length
         return shortest
