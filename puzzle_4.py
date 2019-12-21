@@ -7,11 +7,11 @@ class Code:
 
     def __add__(self, value):
         if(isinstance(value, int)):
-            for i in range(len(self.digits) - 1, -1, -1): # Loop through the digits in reverse order of index
-                self.__apply_add(i, value)
-                
+            self.__apply_add(len(self.digits)-1, value)    
         else:
             raise TypeError("Only int is supported")
+        
+        return self
     
     def __apply_add(self, digit, value):
         self.digits[digit] += value
