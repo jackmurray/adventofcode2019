@@ -40,10 +40,3 @@ class Code:
         return has_adjacent_pair and digits_never_decrease
 
 
-digits_start = Code("100") 
-digits_end = Code("150")
-
-count = 0
-while digits_start != digits_end:
-    if is_valid(digits_start):
-        count += 1
