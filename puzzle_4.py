@@ -43,3 +43,13 @@ class Code:
         return has_adjacent_pair and digits_never_decrease
 
 
+if __name__ == "__main__":
+    start = Code("146810")
+    end   = Code("612564")
+    count = 0
+    while start.digits != end.digits:
+        if start.is_valid():
+            count += 1
+            print("{0} is valid".format(start))
+        start += 1
+    print(count)
