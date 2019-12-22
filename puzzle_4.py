@@ -10,8 +10,11 @@ class Code:
             self.__apply_add(len(self.digits)-1, value)    
         else:
             raise TypeError("Only int is supported")
-        
+
         return self
+
+    def __str__(self):
+        return "".join(str(x) for x in self.digits)
     
     def __apply_add(self, digit, value):
         self.digits[digit] += value
