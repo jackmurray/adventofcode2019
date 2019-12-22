@@ -36,7 +36,7 @@ class Code:
         
         # Then check if the digits never decrease
         for i in range(0,len(self.digits)-1):
-            if self.digits[i] < self.digits[i+1]:
+            if self.digits[i] > self.digits[i+1]:
                 digits_never_decrease = False
                 break
 
