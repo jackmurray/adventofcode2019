@@ -30,9 +30,30 @@ class Code:
 
         # First check if there are adjacent digits
         for i in range(0,len(self.digits)-1):
+            has_prev = False
+            has_next = False
+            prev = -1
+            next = -1
+
             if self.digits[i] == self.digits[i+1]:
                 has_adjacent_pair = True
-                break
+
+                if i+2 <= len(self.digits)-1: # there are more numbers to check
+                    has_next = True
+                    next = self.digits[i+2]
+                if i-1 >= 0:
+                    has_prev = True
+                    prev = self.digits[i-1]
+                    
+                if has_next and next == self.digits[i]:
+                    has_adjacent_pair = False
+                
+                if has_prev and prev == self.digits[i]:
+                    has_adjacent_pair = False
+                
+                if has_adjacent_pair == True:
+                    break # If we're still here then we don't need to check any other digits - we know we have a valid pair.
+                
         
         # Then check if the digits never decrease
         for i in range(0,len(self.digits)-1):

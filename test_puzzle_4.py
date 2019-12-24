@@ -12,9 +12,12 @@ class Puzzle4(unittest.TestCase):
         self.assertFalse(c.is_valid())
 
     def test_sample_inputs(self):
-        self.assertTrue(Code("111111").is_valid())
         self.assertFalse(Code("223450").is_valid())
         self.assertFalse(Code("123789").is_valid())
+        self.assertFalse(Code("599999").is_valid())
+        self.assertFalse(Code("577789").is_valid())
+
+        self.assertTrue(Code("112223").is_valid())
 
 if __name__ == "__main__":
     tester = Puzzle4()
