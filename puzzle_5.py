@@ -29,11 +29,11 @@ class IntcodeComputer:
         return -1
 
     opcode_handler = {
-        1: op_add,
-        2: op_mul,
-        3: op_input,
-        4: op_output,
-        99: op_exit
+        1: { "func": op_add, "paramcount": 3},
+        2: { "func": op_mul, "paramcount": 3},
+        3: { "func": op_input, "paramcount": 1},
+        4: { "func": op_output, "paramcount": 1},
+        99: { "func": op_exit, "paramcount": 0}
     }
 
     def advance(self, instructioncount):
@@ -43,7 +43,7 @@ class IntcodeComputer:
         self.ip = 0
         while True:
             opcode = self.program[self.ip]
-            func = self.opcode_handler.get(int(opcode), lambda self: print("Unknown opcode {0}".format(opcode)))
+            func = self.opcode_handler.get(int(opcode), lambda self: print("Unknown opcode {0}".format(opcode)))['func']
             result = func(self)
             if result == -1:
                 break
