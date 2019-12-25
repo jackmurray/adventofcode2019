@@ -8,18 +8,22 @@ class IntcodeComputer:
 
     def op_add(self):
         self.program[self.program[self.ip+3]] = self.program[self.program[self.ip+1]] + self.program[self.program[self.ip+2]]
+        self.advance(4)
         return 0
 
     def op_mul(self):
         self.program[self.program[self.ip+3]] = self.program[self.program[self.ip+1]] * self.program[self.program[self.ip+2]]
+        self.advance(4)
         return 0
 
     def op_input(self):
         val = int(input("Enter value: "))
         self.program[self.program[self.ip+1]] = val
+        self.advance(2)
 
     def op_output(self):
         print(self.program[self.program[self.ip+1]])
+        self.advance(2)
 
     def op_exit(self):
         return -1
@@ -32,6 +36,9 @@ class IntcodeComputer:
         99: op_exit
     }
 
+    def advance(self, instructioncount):
+        self.ip += instructioncount
+
     def execute(self):
         self.ip = 0
         while True:
@@ -40,7 +47,6 @@ class IntcodeComputer:
             result = func(self)
             if result == -1:
                 break
-            self.ip += 4
 
 
 def bruteforce_output(computer, desired_output):
