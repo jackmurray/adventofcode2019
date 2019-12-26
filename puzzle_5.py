@@ -44,6 +44,32 @@ class IntcodeComputer:
         print(self.param_read(0))
         self.advance(2)
 
+    def op_jtrue(self):
+        if self.param_read(0) != 0:
+            self.ip = self.param_read(1)
+        else:
+            self.advance(3)
+
+    def op_jfalse(self):
+        if self.param_read(0) == 0:
+            self.ip = self.param_read(1)
+        else:
+            self.advance(3)
+
+    def op_lessthan(self):
+        if self.param_read(0) < self.param_read(1):
+            self.param_write(2, 1)
+        else:
+            self.param_write(2, 0)
+        self.advance(4)
+
+    def op_equals(self):
+        if self.param_read(0) == self.param_read(1):
+            self.param_write(2, 1)
+        else:
+            self.param_write(2, 0)
+        self.advance(4)
+
     def op_exit(self):
         return -1
 
@@ -52,6 +78,10 @@ class IntcodeComputer:
         2: { "func": op_mul, "paramcount": 3},
         3: { "func": op_input, "paramcount": 1},
         4: { "func": op_output, "paramcount": 1},
+        5: { "func": op_jtrue, "paramcount": 2},
+        6: { "func": op_jfalse, "paramcount": 2},
+        7: { "func": op_lessthan, "paramcount": 3},
+        8: { "func": op_equals, "paramcount": 3},
         99: { "func": op_exit, "paramcount": 0}
     }
 
