@@ -16,26 +16,33 @@ class IntcodeComputer:
     def mem_write(self, addr, value, addrmode):
         if addrmode == 0: # Position mode
             self.program[addr] = value
-        raise ValueError("Only position mode supported for memory writes.")
+        else:
+            raise ValueError("Only position mode supported for memory writes.")
     
+    def param_read(self, paramindex):
+        return self.mem_read(self.current_params[paramindex]['value'], self.current_params[paramindex]['mode'])
+
+    def param_write(self, paramindex, value):
+        return self.mem_write(self.current_params[paramindex]['value'], value, self.current_params[paramindex]['mode'])
 
     def op_add(self):
-        self.program[self.program[self.ip+3]] = self.program[self.program[self.ip+1]] + self.program[self.program[self.ip+2]]
+        # We know that output addresses will never be in immediate mode so we can just always do the indexing into program.
+        self.param_write(2, self.param_read(0) + self.param_read(1))
         self.advance(4)
         return 0
 
     def op_mul(self):
-        self.program[self.program[self.ip+3]] = self.program[self.program[self.ip+1]] * self.program[self.program[self.ip+2]]
+        self.param_write(2, self.param_read(0) * self.param_read(1))
         self.advance(4)
         return 0
 
     def op_input(self):
         val = int(input("Enter value: "))
-        self.program[self.program[self.ip+1]] = val
+        self.param_write(0, val)
         self.advance(2)
 
     def op_output(self):
-        print(self.program[self.program[self.ip+1]])
+        print(self.param_read(0))
         self.advance(2)
 
     def op_exit(self):
@@ -55,10 +62,9 @@ class IntcodeComputer:
     def load_params(self, paramcount, modes):
         self.current_params = []
         for i in range(1,paramcount+1):
-            raw_val = self.program[self.ip+i]
+            val = self.program[self.ip+i]
             current_mode = modes % 10
-            val = self.mem_read(raw_val, current_mode)
-            self.current_params.append(val)
+            self.current_params.append({ "value": val, "mode": current_mode })
             modes = int(modes/10) # shift-right
 
 
