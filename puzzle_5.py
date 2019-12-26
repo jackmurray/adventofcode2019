@@ -26,7 +26,6 @@ class IntcodeComputer:
         return self.mem_write(self.current_params[paramindex]['value'], value, self.current_params[paramindex]['mode'])
 
     def op_add(self):
-        # We know that output addresses will never be in immediate mode so we can just always do the indexing into program.
         self.param_write(2, self.param_read(0) + self.param_read(1))
         self.advance(4)
         return 0
@@ -90,6 +89,6 @@ class IntcodeComputer:
 
 if __name__ == "__main__":
     computer = IntcodeComputer()
-    computer.load_file("inputs/puzzle_2.txt")
+    computer.load_file("./inputs/puzzle_5.txt")
     computer.execute()
     print("Final program state: {0}".format(computer.program))
