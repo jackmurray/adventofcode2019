@@ -46,7 +46,7 @@ class OrbitMap:
 
 if __name__ == "__main__":
     o = OrbitMap()
-    with open("test/puzzle_6_test_input.txt") as file_data:
+    with open("inputs/puzzle_6.txt") as file_data:
         for orbit in file_data.readlines():
             o.add(orbit)
 
