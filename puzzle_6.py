@@ -26,7 +26,7 @@ class OrbitMap:
         self.orbit_list.append(node)
         return node
 
-    def search(self, nodename: str):
+    def search(self, nodename: str) -> anytree.Node:
         for node in self.orbit_list:
             if node.name == nodename:
                 return node
@@ -44,6 +44,24 @@ class OrbitMap:
             for orbit in file_data.readlines():
                 self.add(orbit)
 
+    def calc_path(self, fromname, toname):
+        fromnode = self.search(fromname)
+        tonode = self.search(toname)
+
+        # To find the path first we find the last node (one with longest path to the root) that is an ancestor of both nodes
+        from_path_nodes = list(fromnode.iter_path_reverse())
+        common_ancestor = None
+        for n in tonode.iter_path_reverse():
+            if n in from_path_nodes: # The first match we get is the one we want, since we're up the tree of parents.
+                common_ancestor = n
+                break
+        if common_ancestor == None:
+            raise Exception("No common ancestor found.")
+        
+        len_from_fromnode = fromnode.depth - common_ancestor.depth
+        len_from_tonode = tonode.depth - common_ancestor.depth
+        return len_from_fromnode + len_from_tonode
+
 if __name__ == "__main__":
     o = OrbitMap()
     with open("inputs/puzzle_6.txt") as file_data:
@@ -51,3 +69,4 @@ if __name__ == "__main__":
             o.add(orbit)
 
     print(o.count_all_orbits())
+    print(o.calc_path(o.search("SAN").parent.name, o.search("YOU").parent.name))
